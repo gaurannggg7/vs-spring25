@@ -4,9 +4,9 @@
 
 // Define pins for each flex sensor
 #define FLEX_SENSOR_INDEX 25  // Pin for index finger sensor
-#define FLEX_SENSOR_MIDDLE 26 // Pin for middle finger sensor
-#define FLEX_SENSOR_RING 27   // Pin for ring finger sensor
 #define FLEX_SENSOR_PINKY 14  // Pin for pinky finger sensor
+#define FLEX_SENSOR_RING 27   // Pin for ring finger sensor
+#define FLEX_SENSOR_MIDDLE 26 // Pin for middle finger sensor
 #define FLEX_SENSOR_THUMB 33  // Pin for thumb sensor
 
 
@@ -17,6 +17,7 @@ void setup() {
   while (!Serial)
     delay(10); // Wait for serial connection
 
+  Serial.println("Serial connected!");
   // Initialize MPU6050
   if (!mpu.begin()) {
     Serial.println("Failed to find MPU6050 chip");

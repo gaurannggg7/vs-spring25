@@ -1,6 +1,5 @@
 #include <Arduino.h>
-#include <Vector.h>
-#include <ArxContainer.h>
+#include <Vector>
 
 #define MAX_QUEUE_LENGTH 5
 #define STABILITY_CUTOFF 200
@@ -9,7 +8,7 @@
 
 typedef int ReadingType;
 
-typedef struct SensorReading {
+typedef struct {
   ReadingType pinky;
   ReadingType ring;
   ReadingType middle;
@@ -23,7 +22,7 @@ public:
   bool const operator ==(const SensorReading &other);
   constexpr bool isInvalid();
   void print();
-};
+} SensorReading;
 
 const ReadingType readingDist(const SensorReading &a, const SensorReading &b) {
   ReadingType pinky = a.pinky - b.pinky;
@@ -99,7 +98,7 @@ void replaceBySmallest(SensorReading &to, const SensorReading &from) {
 }
 
 SensorReading history_array[MAX_QUEUE_LENGTH];
-Vector<SensorReading> history(history_array);
+std::Vector<SensorReading> history(history_array);
 const arx::map<SensorReading, char, 26> mapping {
     {SensorReading{50, 30, 50, 10, 10}, 'a'}, // this kind of thing, but actually
     {SensorReading{0, 0, 0, 0, 30}, 'b'},
