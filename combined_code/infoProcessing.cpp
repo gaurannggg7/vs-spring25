@@ -7,7 +7,7 @@
 //If -200 for a value it means that it is not implemented yet.
 //NOTE: MAKE SURE THIS SET IS COMPATIBLE WITH MAX_CALIBRATED_VALUE AND THE DEFINED FINGER ORDER.
 int letterMappings[26][5] = {
-  {88, 80, 65, 72, 0}, //a
+  {45, 55, 65, 60, 2}, //a
   {0, 0, 0, 0, 30}, //b
   {0, 10, 17, 0, 0}, //c
   {40, 40, 40, 0, 5}, //d
@@ -16,7 +16,7 @@ int letterMappings[26][5] = {
   {30, 40, 30, 0, 10}, //g
   {40, 40, 0, 0, 10}, //h
   {0, 30, 21, 30, 10}, //i
-  {50, 50, 100, 0, 100}, //j
+  {50, 50, 20, 0, 100}, //j
   {30, 30, 0, 0, 10}, //k
   {40, 30, 10, 0, 0}, //l
   {15,  35, 0, 0, 100}, //m
@@ -25,14 +25,14 @@ int letterMappings[26][5] = {
   {20, 20, 0, 0, 0}, //p
   {30, 30, 35, 0, 20}, //q
   {20, 27, 0, 5, 10}, //r
-  {50, 40, 60, 50, 5}, //s
+  {33, 50, 70, 70, 2}, //s
   {30, 30, 35, 0, 20}, //t
   {30, 30, 35, 0, 20}, //u
   {-200, -200, -200, -200, -200}, //v
   {20, 0, 0, 0, 0}, //w
   {10, 5, 5, 0, 20},//x
   {0, 15, 15, 5, 0}, //y
-  {50, 50, 100, 0, 100} //z
+  {50, 50, 20, 0, 100} //z
 };
 
 int specialCharacters[1][6] ={ 
@@ -41,6 +41,8 @@ int specialCharacters[1][6] ={
 
 static char pipedWord[MAX_WORD_LENGTH + 1]; //+1 to account for null character
 static char* curCharPtr = &pipedWord[0];
+extern bool jMotion;
+extern bool zMotion;
 
 char produceChar(SensorReading &reading) {
   reading.print();
@@ -66,6 +68,9 @@ char produceChar(SensorReading &reading) {
         minDistance = distance;
     }
   }
+
+  if(produced == 'I' && jMotion) { produced = 'J';}
+  else if(produced == 'D' && zMotion) { produced = 'Z';}
 
   return produced;
 }

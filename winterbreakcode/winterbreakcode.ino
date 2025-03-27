@@ -9,6 +9,8 @@
 #define FLEX_SENSOR_MIDDLE 26 // Pin for middle finger sensor
 #define FLEX_SENSOR_THUMB 33  // Pin for thumb sensor
 
+#define MPU_SDA 23
+#define MPU_SCL 22
 
 Adafruit_MPU6050 mpu;
 
@@ -18,6 +20,8 @@ void setup() {
     delay(10); // Wait for serial connection
 
   Serial.println("Serial connected!");
+
+  Wire.begin(MPU_SDA, MPU_SCL);
   // Initialize MPU6050
   if (!mpu.begin()) {
     Serial.println("Failed to find MPU6050 chip");

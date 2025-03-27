@@ -3,7 +3,7 @@
 
 #define MAX_QUEUE_LENGTH 5
 #define STABILITY_CUTOFF 200
-#define MAX_CALIBRATING_TIME 10000 // in ms
+#define MAX_CALIBRATING_TIME 5000 // in ms
 #define MAX_CALIBRATED_VALUE 100
 
 //Handy global variables, some have been extern'd from other files.
@@ -11,6 +11,8 @@ extern const int sensorPins[5];
 extern bool calibrating;
 extern long calibratingTime;
 extern SensorReading curReading;
+extern bool jMotion;
+extern bool zMotion;
 
 SensorReading _min;
 SensorReading _max;
@@ -53,6 +55,7 @@ void SensorReading::calibrateReading(SensorReading &reading) {
   reading -= _min;
   for(int f = 0; f < 5; f++){
     reading.readingVals[f] = reading.readingVals[f] * MAX_CALIBRATED_VALUE / max(dist.readingVals[f], 1);
+    //if(f == 0 || f == 1) { reading.readingVals[f] = 50;}
   }
 }
 
@@ -125,7 +128,14 @@ bool SensorReading::stabilize(char &output) {
   else if(output == -1) { detected = -1; return false;}
 
   history.push(*this);
-  if(history.size() == MAX_QUEUE_LENGTH) { output = detected; history = {}; return true;} //Flush history to allow reading of new character, and we could use this for word formation.
+  if(history.size() == MAX_QUEUE_LENGTH) { 
+    output = detected; 
+    history = {};
+    jMotion = false;
+    zMotion = false;
+    return true;
+
+    } //Flush history to allow reading of new character, and we could use this for word formation.
 
   return false;
 }
