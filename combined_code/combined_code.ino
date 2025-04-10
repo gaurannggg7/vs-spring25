@@ -76,6 +76,7 @@ void loop() {
     if(std::abs(a.acceleration.x) > 10  || std::abs(a.acceleration.z) > 10) { zMotion = true; jMotion = false;}
     else { jMotion = true; zMotion = false;}
     jMotion = true;
+    zMotion = true;
   }
   else {Serial.println("No motion!");}
 

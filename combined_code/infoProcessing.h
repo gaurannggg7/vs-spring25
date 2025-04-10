@@ -1,5 +1,6 @@
 #include <Arduino.h>
 #include <cfloat>
+#include <Vector>
 #include "SensorReading.h"
 
 #ifndef INFO_PROCESSING_H
