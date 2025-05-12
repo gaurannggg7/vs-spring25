@@ -37,27 +37,32 @@ void setup() {
   Serial.println("Serial connected!");
 
   //Initialize MPU and set proper pins for SDA and SCL to prevent hanging.
-  Wire.begin(MPU_SDA, MPU_SCL);
-  if(!mpu.begin()) { 
-    Serial.println("Failed to find MPU6050 chip");
-    while(true) delay(10);
-  }
-  Serial.println("MPU6050 Found!");
+  
+  if(!learning_mode) {
+    Wire.begin(MPU_SDA, MPU_SCL);
+    if(!mpu.begin()) { 
+      Serial.println("Failed to find MPU6050 chip");
+      while(true) delay(10);
+    }
+    Serial.println("MPU6050 Found!");
 
-  mpu.setHighPassFilter(MPU6050_HIGHPASS_0_63_HZ);
-  mpu.setMotionDetectionThreshold(1);
-  mpu.setMotionDetectionDuration(20);
-  mpu.setInterruptPinLatch(true);  // Keep it latched
-  mpu.setInterruptPinPolarity(true);
-  mpu.setMotionInterrupt(true);
+    mpu.setHighPassFilter(MPU6050_HIGHPASS_0_63_HZ);
+    mpu.setMotionDetectionThreshold(1);
+    mpu.setMotionDetectionDuration(20);
+    mpu.setInterruptPinLatch(true);  // Keep it latched
+    mpu.setInterruptPinPolarity(true);
+    mpu.setMotionInterrupt(true);
+  }
+  else {Serial.println("MPU initialization skipped due to learning mode!");}
 
   for(int s = 0; s < 5; s++) {pinMode(sensorPins[s], INPUT);}
   Serial.println("Settings initialized!");
 }
+  
 
 void loop() {
 
-  if (mpu.getMotionInterruptStatus() && !learning_mode) {
+  if (!learning_mode && mpu.getMotionInterruptStatus()) {
     sensors_event_t a, g, temp;
     mpu.getEvent(&a, &g, &temp);
 

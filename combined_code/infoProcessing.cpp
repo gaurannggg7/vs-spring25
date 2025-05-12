@@ -77,7 +77,7 @@ char produceChar(SensorReading &reading) {
   }
   else {
     produced = learning_letter;
-    Serial.printf("Data Label: %c",  produced);
+    Serial.printf("Data Label: %c ",  produced);
     reading.print();
   }
 
