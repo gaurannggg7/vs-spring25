@@ -44,10 +44,14 @@ static char* curCharPtr = &pipedWord[0];
 extern bool jMotion;
 extern bool zMotion;
 
+extern const bool learning_mode = true;
+extern const char learning_letter = 'A';
+
 char produceChar(SensorReading &reading) {
   reading.print();
-  
+
   char produced = -1;
+  if(!learning_mode){
   float minDistance = FLT_MAX;
   if(!reading.isValid()) { 
     Serial.println("Invalid reading!");
@@ -67,10 +71,17 @@ char produceChar(SensorReading &reading) {
         produced = specialCharacters[s][5];
         minDistance = distance;
     }
+    if(produced == 'I' && jMotion) { produced = 'J';}
+    else if(produced == 'D' && zMotion) { produced = 'Z';}
+  }
+  }
+  else {
+    produced = learning_letter;
+    Serial.printf("Data Label: %c",  produced);
+    reading.print();
   }
 
-  if(produced == 'I' && jMotion) { produced = 'J';}
-  else if(produced == 'D' && zMotion) { produced = 'Z';}
+  
 
   return produced;
 }

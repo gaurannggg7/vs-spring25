@@ -23,6 +23,8 @@
 
 //Global variables for use, some of these are extern'd by other files.
 extern const int sensorPins[5] = {PINKY, RING, MIDDLE, INDEX, THUMB};
+const bool learning_mode = true;
+const char learning_letter = 'A';
 bool calibrating = true;
 long calibratingTime = 0;
 Adafruit_MPU6050 mpu;
@@ -55,7 +57,7 @@ void setup() {
 
 void loop() {
 
-  if (mpu.getMotionInterruptStatus()) {
+  if (mpu.getMotionInterruptStatus() && !learning_mode) {
     sensors_event_t a, g, temp;
     mpu.getEvent(&a, &g, &temp);
 
