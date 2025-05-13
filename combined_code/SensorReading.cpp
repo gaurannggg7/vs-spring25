@@ -3,7 +3,7 @@
 
 #define MAX_QUEUE_LENGTH 5
 #define STABILITY_CUTOFF 200
-#define MAX_CALIBRATING_TIME 5000 // in ms
+#define MAX_CALIBRATING_TIME 10000 // in ms
 #define MAX_CALIBRATED_VALUE 100
 
 //Handy global variables, some have been extern'd from other files.
@@ -43,7 +43,7 @@ void SensorReading::calibrationSetup(SensorReading &reading) {
   Serial.println("Min:");
   _min.print();
 
-  if(calibratingTime > MAX_CALIBRATING_TIME) {
+  if(calibratingTime > MAX_CALIBRATING_TIME && false) {
     calibrating = false;
     dist.copy(_max);
     dist -= _min;

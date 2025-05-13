@@ -8,11 +8,11 @@
 #include "infoProcessing.h"
 
 // Define pins for each flex sensor (fingers are ordered left to right order on left hand)
-#define PINKY 13 
-#define RING 12
-#define MIDDLE 14 
-#define INDEX 27 
-#define THUMB 26  
+#define PINKY 17 
+#define RING 5
+#define MIDDLE 18 
+#define INDEX 19 
+#define THUMB 21  
 
 #define MPU_SDA 23
 #define MPU_SCL 22
@@ -62,7 +62,7 @@ void setup() {
 
 void loop() {
 
-  if (!learning_mode && mpu.getMotionInterruptStatus()) {
+  if (!learning_mode && mpu.getMotionInterruptStatus() && !learning_mode) {
     sensors_event_t a, g, temp;
     mpu.getEvent(&a, &g, &temp);
 
