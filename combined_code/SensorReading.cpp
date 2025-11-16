@@ -21,6 +21,8 @@ SensorReading dist; // max - min (calculate after calibrations)
 std::queue<SensorReading> history;
 char detected = -1;
 
+double handSizeMultiplier[5];
+
 void SensorReading::operator-=(const SensorReading &other) {
   for(int f = 0; f < 5; f++) { this->readingVals[f] -= other.readingVals[f];}
 }
@@ -56,6 +58,16 @@ void SensorReading::calibrateReading(SensorReading &reading) {
   for(int f = 0; f < 5; f++){
     reading.readingVals[f] = reading.readingVals[f] * MAX_CALIBRATED_VALUE / max(dist.readingVals[f], 1);
     //if(f == 0 || f == 1) { reading.readingVals[f] = 50;}
+  }
+}
+
+void SensorReading::handSizeCalibration(SensorReading &reading) {
+  SensorReading baseline; 
+  baseline.readingVals = [2500, 2500, 2500, 2500, 2500]; // Plug in actual baseline value for average hand size wearing glove. Baseline works like the dist variable (max - min)
+
+  for (int f = 0; f < 5; f++) {
+    handSizeMultiplier[f] = baseline.readingVals[f] / dist.readingVals[f];
+    reading.readingVals[f] = reading.readingVals[f] * handSizeMultiplier[f];
   }
 }
 

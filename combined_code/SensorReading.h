@@ -14,6 +14,7 @@ public:
   static SensorReading* getReading();
   static void calibrationSetup(SensorReading &reading);
   static void calibrateReading(SensorReading &reading);
+  static void handSizeCalibration(SensorReading &reading);
 
   float distToVector(int values[5]);
   bool isValid();
